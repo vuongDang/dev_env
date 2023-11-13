@@ -1,11 +1,23 @@
 #!/bin/bash
 
-# Install neovim
-curl -OL https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
-tar -xzvf nvim-linux64.tar.gz
-echo "export PATH=\"$HOME/nvim-linux64/bin:\$PATH\"" >> ~/.bashrc
+set -x
 
-# Configure AstroNvim with my config
+mkdir -p ~/local/bin
+mkdir -p ~/local/src
+echo "export PATH=\"$HOME/local/bin:\$PATH\"" >> ~/.bashrc
+
+# lazygit 
+mkdir -p ~/local/src/lazygit
+curl -sL https://github.com/jesseduffield/lazygit/releases/download/v0.40.2/lazygit_0.40.2_Linux_x86_64.tar.gz | tar xzf - -C ~/local/src/lazygit
+ln -sf ~/local/src/lazygit/lazygit ~/local/bin
+
+# Install neovim
+mkdir -p ~/local/src/nvim
+curl -sL https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz | tar xzf - -C ~/local/src/nvim
+ln -sf ~/local/src/nvim/nvim-linux64/bin/nvim ~/local/bin
+
+# Configure neovim with AstroNvim and my config
+rm -rf ~/.config/nvim
 git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
 git clone https://github.com/vuongDang/astronvim-config.git ~/.config/nvim/lua/user
 
